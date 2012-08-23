@@ -11,13 +11,14 @@ class RCPServer(object):
     def __init__(self):
         self._app = wx.App(redirect=False)  #default error output to console
         
+        #Create all message processing pipeline components 
         self._uiManager = UIManager()
         self._outputRouter = OutputRouter(self._uiManager)
         self._inputRouter = InputRouter(self._outputRouter)
         self._server = Server(self._inputRouter)
-        
+
+        #Show default console        
         self._uiManager.ShowOutputWindow("")
-        #self._uiManager.ShowControlPanel()
         
         #Run main message receiving timer
         timerOwner = wx.EvtHandler()
