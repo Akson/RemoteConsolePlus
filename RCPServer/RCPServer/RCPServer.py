@@ -6,7 +6,10 @@ from MessageProcessor.InputRouter import InputRouter
 from MessageProcessor.OutputRouter import OutputRouter
 
 class RCPServer(object):
-    '''Class description...'''
+    '''
+    Main class of RCP server. 
+    It creates and controls all message processing pipeline components.
+    '''
 
     def __init__(self):
         self._app = wx.App(redirect=False)  #default error output to console
