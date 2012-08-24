@@ -4,10 +4,12 @@ import zmq
 from RCPServer.ConfigManager.ConfigManager import NetworkConfig
 
 class Server(object):
-    '''Server is used for receiving messages over network from clients'''
+    '''
+    Server is used for receiving messages over network from clients.
+    '''
 
-    def __init__(self, inputRouter):
-        self._inputRouter = inputRouter
+    def __init__(self, protocolParser):
+        self._protocolParser = protocolParser
 
         self._context = zmq.Context()
         self._socket = self._context.socket(zmq.SUB)
@@ -15,5 +17,10 @@ class Server(object):
         self._socket.setsockopt(zmq.SUBSCRIBE, "")
         
     def ReceiveMessages(self):
-        message = "test"
-        self._inputRouter.PassMessage(message)
+        #Receive all incoming messages and pass them to the protocol parser
+        try:
+            while True:
+                message = self._socket.recv(zmq.NOBLOCK)
+                self._protocolParser.ParseProtocolMessage(message)
+        except zmq.ZMQError:
+            pass

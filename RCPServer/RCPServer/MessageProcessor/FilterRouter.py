@@ -1,6 +1,6 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 
-class InputRouter(object):
+class FilterRouter(object):
     '''Class description...'''
 
     def __init__(self, outputRouter):

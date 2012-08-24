@@ -2,8 +2,9 @@
 import wx
 from Network.Server import Server
 from UI.UIManager import UIManager
-from MessageProcessor.InputRouter import InputRouter
+from MessageProcessor.FilterRouter import FilterRouter
 from MessageProcessor.OutputRouter import OutputRouter
+from MessageProtocol.JSONWithBinaryTail import ProtocolParser
 
 class RCPServer(object):
     '''
@@ -17,8 +18,9 @@ class RCPServer(object):
         #Create all message processing pipeline components 
         self._uiManager = UIManager()
         self._outputRouter = OutputRouter(self._uiManager)
-        self._inputRouter = InputRouter(self._outputRouter)
-        self._server = Server(self._inputRouter)
+        self._filterRouter = FilterRouter(self._outputRouter)
+        self._protocolParser = ProtocolParser(self._filterRouter)
+        self._server = Server(self._protocolParser)
 
         #Show default console        
         self._uiManager.ShowOutputWindow("")
