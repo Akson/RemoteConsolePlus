@@ -3,24 +3,30 @@ import zmq
 import json
 import time
 
-class RCPClient(object):
+class RCPConnection(object):
     _context = None
     _socket = None
-
-    @staticmethod
-    def Connect(address):
-        RCPClient._context = zmq.Context()
-        RCPClient._socket = RCPClient._context.socket(zmq.PUB)
-        RCPClient._socket.connect(address)
     
     @staticmethod
-    def _SendMessage(message):
-        if RCPClient._socket == None:
+    def SendMessage(message):
+        #Check connection 
+        if RCPConnection._socket == None:
             raise Exception("Attempt to send message without connection.")
-        RCPClient._socket.send(message)
+        RCPConnection._socket.send(message)
         
-    @staticmethod
-    def Print(value):
-        message = json.dumps({"Stream":"TestStream", "Value":value, "TimeStamp":str(time.time()) })
-        RCPClient._SendMessage(message+"some extrea tail data")        
-        RCPClient._SendMessage(message)
+def RCConnect(address):
+    RCPConnection._context = zmq.Context()
+    RCPConnection._socket = RCPConnection._context.socket(zmq.PUB)
+    RCPConnection._socket.connect(address)
+
+def RCPrint(value, streamName=None, filtersParameters=None, outputParameters=None):
+    #Fill message fields
+    messageObj = dict()
+    messageObj["Value"] = value 
+    messageObj["TimeStamp"] = time.time()
+    if streamName: messageObj["StreamName"] = streamName 
+    if filtersParameters: messageObj["FiltersParameters"] = filtersParameters 
+    if outputParameters: messageObj["OutputParameters"] = outputParameters 
+
+    #Convert a message to JSON format and send to a server
+    RCPConnection.SendMessage(json.dumps(messageObj))
