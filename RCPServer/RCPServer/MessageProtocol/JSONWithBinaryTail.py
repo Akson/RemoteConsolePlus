@@ -15,7 +15,7 @@ class ProtocolParser(object):
         #Parse JSON message first and add additional tail data to a result object
         messageObject, tailIndex = self._decoder.raw_decode(message)
         if tailIndex < len(message):
-            messageObject["AdditionalData"] = message[tailIndex:]
+            messageObject["BinaryData"] = message[tailIndex:]
         
         #Pass parsed data object to the router
         self._filterRouter.PassMessage(messageObject)

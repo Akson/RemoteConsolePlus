@@ -2,3 +2,6 @@
 
 class NetworkConfig(object):
     NetworkAddress = 'tcp://*:55557'
+    
+class HTMLConsoleConfig(object):
+    ConsoleMessageBufferSize = 200

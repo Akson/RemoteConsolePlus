@@ -8,8 +8,8 @@ if __name__ == '__main__':
     while True:
         message = "message {0}".format(i)
         RCPrint(message)
-        RCPrint(i)
-        RCPrint(i/3.759)
+        RCPrint(i, "intStream")
+        RCPrint(i/3.759, "floatStream")
         print "Sent: ", message
         i+=1
         time.sleep(1)
