@@ -1,5 +1,4 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
-import wx
 import wx.html
 from RCPServer.ConfigManager.ConfigManager import HTMLConsoleConfig
 
@@ -7,6 +6,8 @@ class HTMLConsole(wx.Frame):
     '''Class description...'''
 
     def __init__(self, windowName):
+        if windowName == "": 
+            windowName = "Default console" #No name destination is default console
         wx.Frame.__init__(self, None, title=windowName)
         self._messagesList = []
         

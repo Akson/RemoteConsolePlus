@@ -2,9 +2,9 @@
 import wx
 from Network.Server import Server
 from UI.UIManager import UIManager
-from MessageProcessor.FilterRouter import FilterRouter
-from MessageProcessor.OutputRouter import OutputRouter
+from FilterRouter.FilterRouter import FilterRouter
 from MessageProtocol.JSONWithBinaryTail import ProtocolParser
+from OutputRouter.OutputRouter import OutputRouter
 
 class RCPServer(object):
     '''
@@ -22,9 +22,6 @@ class RCPServer(object):
         self._protocolParser = ProtocolParser(self._filterRouter)
         self._server = Server(self._protocolParser)
 
-        #Show default console        
-        self._uiManager.ShowOutputWindow("")
-        
         #Run main message receiving timer
         timerOwner = wx.EvtHandler()
         self._mainTimer = wx.Timer(timerOwner, wx.ID_ANY)

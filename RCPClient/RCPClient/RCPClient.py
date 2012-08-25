@@ -3,6 +3,8 @@ import zmq
 import json
 import time
 
+print "RCPClient module"
+
 class RCPConnection(object):
     _context = None
     _socket = None
@@ -19,14 +21,14 @@ def RCConnect(address):
     RCPConnection._socket = RCPConnection._context.socket(zmq.PUB)
     RCPConnection._socket.connect(address)
 
-def RCPrint(value, streamName=None, filtersParameters=None, outputParameters=None):
+def RCPrint(value, streamName=None, filters=None, destinations=None):
     #Fill message fields
     messageObj = dict()
     messageObj["Value"] = value 
     messageObj["TimeStamp"] = time.time()
     if streamName: messageObj["StreamName"] = streamName 
-    if filtersParameters: messageObj["FiltersParameters"] = filtersParameters 
-    if outputParameters: messageObj["OutputParameters"] = outputParameters 
+    if filters: messageObj["Filters"] = filters 
+    if destinations: messageObj["Destinations"] = destinations 
 
     #Convert a message to JSON format and send to a server
     RCPConnection.SendMessage(json.dumps(messageObj))

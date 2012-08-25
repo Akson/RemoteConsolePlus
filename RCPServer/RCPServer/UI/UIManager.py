@@ -24,7 +24,5 @@ class UIManager(object):
         
     def RegisterNewOutputWindow(self, outputWindow, windowName):
         self._outputWindows[windowName] = outputWindow
-        outputWindow.Bind(wx.EVT_CLOSE, self.OnWindowClose)        
-
-    def PassMessage(self, message, windowName):
-        self._outputWindows[windowName].ProcessMessage(message)
+        outputWindow.Bind(wx.EVT_CLOSE, self.OnWindowClose)
+        self._outputWindows[windowName].Show()        

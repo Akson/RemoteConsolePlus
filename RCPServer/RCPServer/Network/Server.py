@@ -17,10 +17,15 @@ class Server(object):
         self._socket.setsockopt(zmq.SUBSCRIBE, "")
         
     def ReceiveMessages(self):
-        #Receive all incoming messages and pass them to the protocol parser
+        messagesList = []
         try:
+        #Receive all incoming messages and pass them to the protocol parser
             while True:
                 message = self._socket.recv(zmq.NOBLOCK)
+                messagesList.append(message)
+        except zmq.ZMQError: #We get an exception when the incoming buffer is empty
+            #Skip all messages except last. It's useful if we have too many message waiting in buffer
+            messagesList = messagesList[-NetworkConfig.ProcessLastMessages:]
+            #Process all message
+            for message in messagesList:
                 self._protocolParser.ParseProtocolMessage(message)
-        except zmq.ZMQError:
-            pass
