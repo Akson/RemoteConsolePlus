@@ -5,6 +5,7 @@ from UI.UIManager import UIManager
 from FilterRouter.FilterRouter import FilterRouter
 from MessageProtocol.JSONWithBinaryTail import ProtocolParser
 from OutputRouter.OutputRouter import OutputRouter
+from ConfigManager.ConfigManager import NetworkConfig
 
 class RCPServer(object):
     '''
@@ -25,7 +26,7 @@ class RCPServer(object):
         #Run main message receiving timer
         timerOwner = wx.EvtHandler()
         self._mainTimer = wx.Timer(timerOwner, wx.ID_ANY)
-        self._mainTimer.Start(100)
+        self._mainTimer.Start(NetworkConfig.ReceivingMessagesInterval)
         timerOwner.Bind(wx.EVT_TIMER, self.ProcessMessagess, self._mainTimer)
         
         self._app.MainLoop()

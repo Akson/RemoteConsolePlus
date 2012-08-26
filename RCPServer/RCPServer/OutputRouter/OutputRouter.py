@@ -25,7 +25,6 @@ class OutputRouter(object):
         
         #Pass message to all destinations
         for destination in destinationsList:
-            print destination
             if destination not in self._destinations:
                 self.CreateNewDestination(destination)
             self._destinations[destination].ProcessMessage(message)

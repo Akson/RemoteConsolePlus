@@ -3,8 +3,6 @@ import zmq
 import json
 import time
 
-print "RCPClient module"
-
 class RCPConnection(object):
     _context = None
     _socket = None
