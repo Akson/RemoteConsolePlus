@@ -26,10 +26,13 @@ class HTMLConsole(wx.Frame):
         self._messagesList = self._messagesList[-HTMLConsoleConfig.ConsoleMessageBufferSize:]
         
         #Construct 
-        consoleText = ""
+        consoleText = '<font>'
+        
         for message in self._messagesList:
             consoleText += str(message["Value"])
             consoleText += "<br>"
+
+        consoleText += "</font>"
 
         #Update console content and scroll to the bottom
         self._htmlWindow.Freeze()    
