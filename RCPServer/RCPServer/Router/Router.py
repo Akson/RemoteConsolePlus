@@ -1,15 +1,42 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
-import json
-from RCPServer.FilterRouter.FiltersManager import FiltersManager
+from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
+from RCPServer.Router.FiltersManager import FiltersManager
 
-class FilterRouter(object):
+class Router(object):
     '''Class description...'''
 
-    def __init__(self, outputRouter):
-        self._outputRouter = outputRouter
+    def __init__(self, uiManager):
+        self._uiManager = uiManager
+        
+        #List of possible message destinations
+        self._destinations = dict()
+        
+        #Create and register default console
+        self.CreateNewDestination()
+
+        #Filter manages stores all filters
         self._filtersManager = FiltersManager()
 
+    def CreateNewDestination(self, destinationName="", destinationType=None):
+        if destinationType == None: #Default destination type is HTMLConsole
+            newDestination = HTMLConsole(destinationName)
+            self._destinations[destinationName] = newDestination
+            self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
+
     def PassMessage(self, message):
+        #Apply all filters mentioned in message to a message before passing it to destination
+        self.ApplyFilters(message)
+        
+        #Create a list of destinations by splitting Destinations field and deleting spaces around names
+        destinationsList = [name.strip(" ") for name in message["Destinations"].split(",")]
+        
+        #Pass message to all destinations
+        for destination in destinationsList:
+            if destination not in self._destinations:
+                self.CreateNewDestination(destination)
+            self._destinations[destination].ProcessMessage(message)
+
+    def ApplyFilters(self, message):
         filtersStr = message["Filters"]
         if filtersStr != "":
             #Construct filters list
@@ -27,8 +54,6 @@ class FilterRouter(object):
                     filterObject.ApplyFilterToMessage(message, filterParameters)
                 elif filterName != "":
                     raise Exception("Cannot find appropriate filter: ", filterName)
-            
-        self._outputRouter.PassMessage(message)
         
     def ParseFilterDescription(self, filterDescription):
         try:

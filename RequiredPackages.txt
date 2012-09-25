@@ -1,2 +1,1 @@
-1) Python binding for ZeroMQ 2.20 
-https://github.com/downloads/zeromq/pyzmq/pyzmq-2.2.0.win32-py3.2.msi
+1) Python binding for ZeroMQ 2.20: https://github.com/downloads/zeromq/pyzmq/pyzmq-2.2.0.win32-py2.7.msi

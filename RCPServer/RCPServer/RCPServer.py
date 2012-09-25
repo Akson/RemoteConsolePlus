@@ -2,9 +2,8 @@
 import wx
 from Network.Server import Server
 from UI.UIManager import UIManager
-from FilterRouter.FilterRouter import FilterRouter
 from MessageProtocol.JSONWithBinaryTail import ProtocolParser
-from OutputRouter.OutputRouter import OutputRouter
+from Router.Router import Router
 from ConfigManager.ConfigManager import NetworkConfig
 
 class RCPServer(object):
@@ -18,9 +17,8 @@ class RCPServer(object):
         
         #Create all message processing pipeline components 
         self._uiManager = UIManager()
-        self._outputRouter = OutputRouter(self._uiManager)
-        self._filterRouter = FilterRouter(self._outputRouter)
-        self._protocolParser = ProtocolParser(self._filterRouter)
+        self._router = Router(self._uiManager)
+        self._protocolParser = ProtocolParser(self._router)
         self._server = Server(self._protocolParser)
 
         #Run main message receiving timer

@@ -17,7 +17,7 @@ class HTMLConsole(wx.Frame):
         self.SetSizer(sizer)
 
     def ProcessMessage(self, newMessage):
-        print newMessage
+        #print newMessage
         
         #Save new message to buffer
         self._messagesList.append(newMessage)
@@ -29,8 +29,7 @@ class HTMLConsole(wx.Frame):
         consoleText = '<font>'
         
         for message in self._messagesList:
-            consoleText += str(message["Value"])
-            consoleText += "<br>"
+            consoleText += "[%(StreamName)s]: %(Value)s<br>" % message
 
         consoleText += "</font>"
 

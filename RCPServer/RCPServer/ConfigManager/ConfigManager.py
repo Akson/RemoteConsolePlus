@@ -1,7 +1,7 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 
 class NetworkConfig(object):
-    NetworkAddress = 'tcp://*:55557'
+    NetworkAddress = 'tcp://127.0.0.1:55557'
     ProcessLastMessages = 100 
     ReceivingMessagesInterval = 100
     

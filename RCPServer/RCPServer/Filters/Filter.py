@@ -7,15 +7,6 @@ class Filter(object):
         self._defaultParameters = self.ConstructDefaultParameters()
         pass
 
-    def ApplyFilterToMessage1(self, message, filterParameters):
-        try:
-            #Combine default parameters with passed values and apply filter
-            combinedFilterParameters = dict(self._defaultParameters)
-            combinedFilterParameters.update(filterParameters)
-            self.ApplyFilter(message, combinedFilterParameters)
-        except:
-            raise Exception(str(type(self))+" filter cannot process message: "+str(message))
-        
     def ApplyFilterToMessage(self, message, filterParameters):
         #Combine default parameters with passed values and apply filter
         combinedFilterParameters = dict(self._defaultParameters)

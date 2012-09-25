@@ -10,7 +10,7 @@ class ProtocolParser(object):
     '''
 
     def __init__(self, filterRouter):
-        self._filterRouter = filterRouter
+        self._router = filterRouter
         self._decoder = json.JSONDecoder()
         
     def ParseProtocolMessage(self, message):
@@ -24,4 +24,4 @@ class ProtocolParser(object):
         outputMessage.update(messageObject)
         
         #Pass parsed data object to the router
-        self._filterRouter.PassMessage(outputMessage)
+        self._router.PassMessage(outputMessage)
