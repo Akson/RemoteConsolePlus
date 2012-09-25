@@ -1,6 +1,6 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 
-class Filter(object):
+class FilterBase(object):
     '''Class description...'''
 
     def __init__(self):

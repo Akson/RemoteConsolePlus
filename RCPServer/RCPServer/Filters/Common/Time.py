@@ -1,7 +1,7 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
-from RCPServer.Filters.Filter import Filter
+from RCPServer.Filters.FilterBase import FilterBase
 
-class Time(Filter):
+class Time(FilterBase):
     '''
     This filter formats time value. It gets a number of milliseconds
     and outputs time in SSs MSms format by default.
@@ -9,7 +9,7 @@ class Time(Filter):
 
     def __init__(self):
         #Call default parent constructor
-        Filter.__init__(self)
+        FilterBase.__init__(self)
 
     def ConstructDefaultParameters(self):
         return {"unit":"ms"}

@@ -1,6 +1,6 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
-from RCPServer.Router.FiltersManager import FiltersManager
+from RCPServer.Filters.FiltersManager import FiltersManager
 
 class Router(object):
     '''Class description...'''
@@ -24,7 +24,7 @@ class Router(object):
             self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
 
     def PassMessage(self, message):
-        #Apply all filters mentioned in message to a message before passing it to destination
+        #Apply all filters mentioned in the message to the message before passing it to destination
         self.ApplyFilters(message)
         
         #Create a list of destinations by splitting Destinations field and deleting spaces around names
