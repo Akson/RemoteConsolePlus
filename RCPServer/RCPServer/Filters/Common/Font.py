@@ -2,7 +2,9 @@
 from RCPServer.Filters.FilterBase import FilterBase
 
 class Font(FilterBase):
-    '''Class description...'''
+    '''
+    This filter formats text style based on provided parameters 
+    '''
 
     def __init__(self):
         #Call default parent constructor

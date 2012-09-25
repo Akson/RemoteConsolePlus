@@ -24,6 +24,10 @@ if __name__ == '__main__':
         RCPrint(i*1000+i/3.759, "time", destinations="WinTime", filters='Time(unit=s)|Font(color=green)')
         RCPrint(i*1000+i/3.759, "time", destinations="WinTime", filters='Font(color=green)')
         RCPrint(i*1000+i/3.759, "time", destinations="WinTime", filters='Font')
+
+        RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars')
+        RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars(width=2, height=4)')
+        RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars(direction=H)')
         
         print "Sent: ", message
         i+=1

@@ -3,7 +3,7 @@ from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
 from RCPServer.Filters.FiltersManager import FiltersManager
 
 class Router(object):
-    '''Class description...'''
+    '''Router applies all filters to a message and then route it to appropriate destinations'''
 
     def __init__(self, uiManager):
         self._uiManager = uiManager
@@ -30,7 +30,7 @@ class Router(object):
         #Create a list of destinations by splitting Destinations field and deleting spaces around names
         destinationsList = [name.strip(" ") for name in message["Destinations"].split(",")]
         
-        #Pass message to all destinations
+        #Pass message to all destinations, if a destination does not exist, create it
         for destination in destinationsList:
             if destination not in self._destinations:
                 self.CreateNewDestination(destination)

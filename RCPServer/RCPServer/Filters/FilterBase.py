@@ -1,7 +1,10 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 
 class FilterBase(object):
-    '''Class description...'''
+    '''
+    This is a very basic filter which does nothing but has all required methods.
+    All filters have to use this class as a parent.
+    '''
 
     def __init__(self):
         self._defaultParameters = self.ConstructDefaultParameters()
