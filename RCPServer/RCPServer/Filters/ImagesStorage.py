@@ -8,7 +8,7 @@ class ImagesStorage(object):
     imagesNumber = 0
     
     @staticmethod
-    def AddImage(img):
+    def AddPNGImage(img):
         if ImagesStorage.imagesNumber == 0:
             wx.FileSystem.AddHandler(wx.MemoryFSHandler())
             ImagesStorage.imgRAM=wx.MemoryFSHandler()
@@ -17,7 +17,7 @@ class ImagesStorage(object):
         ImagesStorage.imgRAM.AddFile(imgName,img, wx.BITMAP_TYPE_PNG)
 
         ImagesStorage.imagesNumber += 1
-        return imgName 
+        return "memory:" + imgName 
 
     @staticmethod
     def AddFigure(fig):
@@ -32,4 +32,4 @@ class ImagesStorage(object):
         wxim.SetData(im.convert("RGB").tostring())
         wximbmp=wx.BitmapFromImage(wxim)
         
-        return ImagesStorage.AddImage(wximbmp)
+        return ImagesStorage.AddPNGImage(wximbmp)

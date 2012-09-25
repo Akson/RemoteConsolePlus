@@ -29,7 +29,11 @@ class Bars(FilterBase):
             ax.barh(pos, values, align='center')
         else:
             ax.bar(pos, values, align='center')
+        
+        #Use stream name as a title
         ax.set_title(message["StreamName"])
+        #We need to delete stream name to don't have it in the output
+        message["StreamName"] = None
         
         message["Value"] = '<img align="left" src="memory:%s"><br>'%ImagesStorage.AddFigure(fig)
         
