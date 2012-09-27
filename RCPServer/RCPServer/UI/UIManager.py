@@ -61,3 +61,7 @@ class UIManager(object):
             self._outputWindows[windowName].SetSize((size[0], size[1]))
 
         self._outputWindows[windowName].Show()        
+
+    def UnRegisterOutputWindow(self, windowName):
+        self._outputWindows[windowName].Hide()
+        del self._outputWindows[windowName]

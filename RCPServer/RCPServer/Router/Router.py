@@ -1,6 +1,7 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
 from RCPServer.Filters.FiltersManager import FiltersManager
+from RCPServer.MessageDestination.OutputWindow.ProgressWindow import ProgressWindow
 
 class Router(object):
     '''Router applies all filters to a message and then route it to appropriate destinations'''
@@ -23,12 +24,38 @@ class Router(object):
             self._destinations[destinationName] = newDestination
             self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
 
+        if destinationType == "ProgressWindow": #Default destination type is HTMLConsole
+            newDestination = ProgressWindow(destinationName)
+            self._destinations[destinationName] = newDestination
+            self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
+            
+    def DeleteExistingDestination(self, destinationName):
+        del self._destinations[destinationName]
+        self._uiManager.UnRegisterOutputWindow(destinationName)
+
     def PassMessage(self, message):
         #Apply all filters mentioned in the message to the message before passing it to destination
         self.ApplyFilters(message)
         
         #Create a list of destinations by splitting Destinations field and deleting spaces around names
         destinationsList = [name.strip(" ") for name in message["Destinations"].split(",")]
+        
+        #Create new destination of specified type and replace existing one if needed
+        if message["StreamName"] == "!CREATE_DESTINATION":
+            for destination in destinationsList:
+                if destination in self._destinations:
+                    self.DeleteExistingDestination(destination)
+                self.CreateNewDestination(destination, message["Value"])
+            #It's a control message, we don't need to pass it to destinations 
+            return
+        
+        #Destroy a destination object and close windows
+        if message["StreamName"] == "!DESTROY_DESTINATION":
+            for destination in destinationsList:
+                if destination in self._destinations:
+                    self.DeleteExistingDestination(destination)
+            #It's a control message, we don't need to pass it to destinations 
+            return
         
         #Pass message to all destinations, if a destination does not exist, create it
         for destination in destinationsList:

@@ -2,7 +2,6 @@
 import wx
 import cStringIO
 import Image
-import wx
 
 class ImagesStorage(object):
     imagesNumber = 0

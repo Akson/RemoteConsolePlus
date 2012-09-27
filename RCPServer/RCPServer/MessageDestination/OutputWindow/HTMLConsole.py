@@ -3,7 +3,10 @@ import wx.html
 from RCPServer.ConfigManager.ConfigManager import HTMLConsoleConfig
 
 class HTMLConsole(wx.Frame):
-    '''Class description...'''
+    '''
+    This destination class is the default console window
+    which does show messages as HTML
+    '''
 
     def __init__(self, windowName):
         if windowName == "": 
@@ -29,7 +32,8 @@ class HTMLConsole(wx.Frame):
         consoleText = '<font>'
         
         for message in self._messagesList:
-            consoleText += "[%(StreamName)s]: %(Value)s<br>" % message
+            if message["StreamName"] != "": consoleText += "[%(StreamName)s]: " % message
+            consoleText += "%(Value)s<br>" % message
 
         consoleText += "</font>"
 

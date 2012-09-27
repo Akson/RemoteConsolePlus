@@ -35,5 +35,5 @@ class Bars(FilterBase):
         #We need to delete stream name to don't have it in the output
         message["StreamName"] = None
         
-        message["Value"] = '<img align="left" src="memory:%s"><br>'%ImagesStorage.AddFigure(fig)
+        message["Value"] = '<img align="left" src="%s"><br>'%ImagesStorage.AddFigure(fig)
         
