@@ -2,6 +2,7 @@
 from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
 from RCPServer.Filters.FiltersManager import FiltersManager
 from RCPServer.MessageDestination.OutputWindow.ProgressWindow import ProgressWindow
+import wx
 
 class Router(object):
     '''Router applies all filters to a message and then route it to appropriate destinations'''
@@ -13,29 +14,36 @@ class Router(object):
         self._destinations = dict()
         
         #Create and register default console
-        self.CreateNewDestination()
+        defConsole = self.CreateAndRegisterNewDestination()
+        
+        #Add event listener in order to close the entire application when the default console is closed
+        defConsole.Bind(wx.EVT_CLOSE, lambda event: exit())
 
         #Filter manages stores all filters
         self._filtersManager = FiltersManager()
 
-    def CreateNewDestination(self, destinationName=""):
+    def CreateAndRegisterNewDestination(self, destinationName=""):
         #Extract destination type
         destinationType = None  #HTML console by default
         typeNameStart = destinationName.find("(")
         if typeNameStart != -1:
             destinationType = destinationName[typeNameStart+1:-1].strip(" ")
         
-        if destinationType == None: #Default destination type is HTMLConsole
-            newDestination = HTMLConsole(destinationName)
-            self._destinations[destinationName] = newDestination
-            self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
+        #Default destination type is HTMLConsole
+        newDestination = HTMLConsole(destinationName)
 
         if destinationType == "ProgressWindow": #Default destination type is HTMLConsole
             newDestination = ProgressWindow(destinationName)
-            self._destinations[destinationName] = newDestination
-            self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
-            
-    def DestroyDestination(self, destinationName):
+
+        self._destinations[destinationName] = newDestination
+        self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
+
+        #Hide a destination when user closes it        
+        newDestination.Bind(wx.EVT_CLOSE, lambda event: event.GetEventObject().Hide())
+        
+        return newDestination
+    
+    def DestroyAndUnregisterDestination(self, destinationName):
         if destinationName in self._destinations:
             del self._destinations[destinationName]
             self._uiManager.UnRegisterOutputWindow(destinationName)
@@ -50,8 +58,10 @@ class Router(object):
         #Pass message to all destinations, if a destination does not exist, create it
         for destination in destinationsList:
             if destination not in self._destinations:
-                self.CreateNewDestination(destination)
+                self.CreateAndRegisterNewDestination(destination)
             self._destinations[destination].ProcessMessage(message)
+            #Always show window when new messages come
+            self._destinations[destination].Show()
 
     def ApplyFilters(self, message):
         filtersStr = message["Filters"]

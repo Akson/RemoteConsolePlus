@@ -41,7 +41,7 @@ class UIManager(object):
          
     def OnWindowClose(self, event):
         self.SaveWindowsPositions()
-        exit()
+        event.Skip()
     
     def ShowControlPanel(self):
         self._controlPanel.Show()
