@@ -10,7 +10,6 @@ class UIManager(object):
     def __init__(self):
         #Create control panel
         self._controlPanel = ControlPanelWindow()
-        self._controlPanel.Bind(wx.EVT_CLOSE, self.OnWindowClose)        
         
         #List of all output windows
         self._outputWindows = dict()
@@ -39,19 +38,20 @@ class UIManager(object):
         json.dump(self._windowsPositions, winConfigFile, indent = 4)
         winConfigFile.close()
          
-    def OnWindowClose(self, event):
-        self.SaveWindowsPositions()
-        event.Skip()
-    
     def ShowControlPanel(self):
         self._controlPanel.Show()
 
     def ShowOutputWindow(self, windowName):
         self._outputWindows[windowName].Show()
-        
+    
+    def SaveWindowPositions(self, event):
+        self.SaveWindowsPositions()
+        event.Skip()
+
     def RegisterNewOutputWindow(self, outputWindow, windowName):
         self._outputWindows[windowName] = outputWindow
-        outputWindow.Bind(wx.EVT_CLOSE, self.OnWindowClose)
+        outputWindow.Bind(wx.EVT_MOVE, self.SaveWindowPositions)
+        outputWindow.Bind(wx.EVT_SIZING, self.SaveWindowPositions)
         
         #Try to load stored window position
         if windowName in self._windowsPositions:

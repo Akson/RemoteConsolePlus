@@ -35,6 +35,10 @@ if __name__ == '__main__':
         RCPrint((i%7)*100/7, "Progress bar 1", destinations="ProgressWindow(ProgressWindow)")
         RCPrint((i%9)*100/8, "Progress bar 2", destinations="ProgressWindow(ProgressWindow)")
         RCPrint((i%9)*100/8, "Progress bar 2", destinations="ProgressWindow2(ProgressWindow)")
+
+        RCPrint(i/3.59, "floatStream1", destinations="TestList1(ListWindow)")
+        RCPrint(i/3.9, "floatStream2", destinations="TestList1(ListWindow)")
+        RCPrint(message, "floatStream3", destinations="TestList1(ListWindow)")
         
         print "Sent: ", message
         i+=1

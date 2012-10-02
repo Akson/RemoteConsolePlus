@@ -1,7 +1,5 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 import wx
-import wx.html
-from RCPServer.ConfigManager.ConfigManager import HTMLConsoleConfig
 
 class ProgressWindow(wx.Frame):
     '''

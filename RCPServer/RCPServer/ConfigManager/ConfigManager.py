@@ -8,6 +8,9 @@ class NetworkConfig(object):
 class HTMLConsoleConfig(object):
     ConsoleMessageBufferSize = 200
     
+class ListWindowConfig(object):
+    ConsoleMessageBufferSize = 200
+    
 class MessageConfig(object):
     #We will use this message to have all fields in all messages
     DefaultMessageFields = {"Value":"", "TimeStamp":0, "StreamName":"", "Filters":"", "Destinations":"", "BinaryData":None}

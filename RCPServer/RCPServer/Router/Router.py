@@ -3,6 +3,7 @@ from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
 from RCPServer.Filters.FiltersManager import FiltersManager
 from RCPServer.MessageDestination.OutputWindow.ProgressWindow import ProgressWindow
 import wx
+from RCPServer.MessageDestination.OutputWindow.ListWindow import ListWindow
 
 class Router(object):
     '''Router applies all filters to a message and then route it to appropriate destinations'''
@@ -34,6 +35,9 @@ class Router(object):
 
         if destinationType == "ProgressWindow": #Default destination type is HTMLConsole
             newDestination = ProgressWindow(destinationName)
+
+        if destinationType == "ListWindow": #Default destination type is HTMLConsole
+            newDestination = ListWindow(destinationName)
 
         self._destinations[destinationName] = newDestination
         self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
