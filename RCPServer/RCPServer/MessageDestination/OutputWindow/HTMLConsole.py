@@ -1,8 +1,9 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 import wx.html
 from RCPServer.ConfigManager.ConfigManager import HTMLConsoleConfig
+from RCPServer.MessageDestination.DestinationBase import DestinationBase
 
-class HTMLConsole(wx.Frame):
+class HTMLConsole(DestinationBase):
     '''
     This destination class is the default console window
     which does show messages as HTML
@@ -11,7 +12,7 @@ class HTMLConsole(wx.Frame):
     def __init__(self, windowName):
         if windowName == "": 
             windowName = "Default console" #No name destination is default console
-        wx.Frame.__init__(self, None, title=windowName)
+        DestinationBase.__init__(self, windowName)
         self._messagesList = []
         
         self._htmlWindow = wx.html.HtmlWindow(self)

@@ -1,7 +1,8 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 import wx
+from RCPServer.MessageDestination.DestinationBase import DestinationBase
 
-class ProgressWindow(wx.Frame):
+class ProgressWindow(DestinationBase):
     '''
     classdocs
     '''
@@ -9,7 +10,7 @@ class ProgressWindow(wx.Frame):
     def __init__(self, windowName):
         if windowName == "":
             windowName = "Default console" #No name destination is default console
-        wx.Frame.__init__(self, None, title=windowName)
+        DestinationBase.__init__(self, windowName)
 
         self._gauge = wx.Gauge(self, -1, 100, size=(250, 25))
 
@@ -20,4 +21,3 @@ class ProgressWindow(wx.Frame):
     def ProcessMessage(self, newMessage):
         value = int(newMessage["Value"])
         self._gauge.SetValue(value)
-

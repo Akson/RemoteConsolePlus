@@ -32,7 +32,8 @@ class UIManager(object):
             curWin = self._outputWindows[windowName]
             pos = curWin.GetPosition()
             size = curWin.GetSize()
-            self._windowsPositions[windowName] = {'pos':[pos[0], pos[1]], 'size':[size[0], size[1]]}
+            windowProperties = curWin.GetWindowProperties()
+            self._windowsPositions[windowName] = {'pos':[pos[0], pos[1]], 'size':[size[0], size[1]], 'windowProperties':windowProperties}
             
         winConfigFile = open(UIConfig.WindowsPositionsFileName, "w")
         json.dump(self._windowsPositions, winConfigFile, indent = 4)
@@ -59,9 +60,12 @@ class UIManager(object):
             size = self._windowsPositions[windowName]['size']
             self._outputWindows[windowName].SetPosition((pos[0], pos[1]))
             self._outputWindows[windowName].SetSize((size[0], size[1]))
+            windowProperties = self._windowsPositions[windowName]['windowProperties']
+            self._outputWindows[windowName].SetWindowProperties(windowProperties)
 
         self._outputWindows[windowName].Show()        
 
     def UnRegisterOutputWindow(self, windowName):
         self._outputWindows[windowName].Hide()
         del self._outputWindows[windowName]
+
