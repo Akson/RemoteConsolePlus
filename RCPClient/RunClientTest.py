@@ -32,11 +32,9 @@ if __name__ == '__main__':
             RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars(width=2, height=4)')
             RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars(direction=H)')
 
-        if i%7 == 0:
-            RCPrint("ProgressWindow", streamName="!CREATE_DESTINATION", destinations="ProgressWindow")
-        RCPrint((i%7)*100/7, "Progress bar 1", destinations="ProgressWindow")
-        if i%7 == 6:
-            RCPrint(None, streamName="!DESTROY_DESTINATION", destinations="ProgressWindow")
+        RCPrint((i%7)*100/7, "Progress bar 1", destinations="ProgressWindow(ProgressWindow)")
+        RCPrint((i%9)*100/8, "Progress bar 2", destinations="ProgressWindow(ProgressWindow)")
+        RCPrint((i%9)*100/8, "Progress bar 2", destinations="ProgressWindow2(ProgressWindow)")
         
         print "Sent: ", message
         i+=1
