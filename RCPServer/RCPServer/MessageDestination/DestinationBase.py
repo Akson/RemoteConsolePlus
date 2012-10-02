@@ -1,19 +1,12 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
-import wx
 
-class DestinationBase(wx.Frame):
+class DestinationBase(object):
     '''
-    Base class for all destination windows
+    Base class for all destinations
     '''
 
-    def __init__(self, windowName):
-        wx.Frame.__init__(self, None, title=windowName)
-
-    def ProcessMessage(self, newMessage):
+    def __init__(self):
         yield
 
-    def GetWindowProperties(self):
-        return {}
-
-    def SetWindowProperties(self, windowProperties):
+    def ProcessMessage(self, newMessage):
         yield

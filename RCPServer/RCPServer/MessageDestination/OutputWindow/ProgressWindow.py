@@ -2,7 +2,7 @@
 import wx
 from RCPServer.MessageDestination.DestinationBase import DestinationBase
 
-class ProgressWindow(DestinationBase):
+class ProgressWindow(DestinationBase, wx.Frame):
     '''
     classdocs
     '''
@@ -10,7 +10,7 @@ class ProgressWindow(DestinationBase):
     def __init__(self, windowName):
         if windowName == "":
             windowName = "Default console" #No name destination is default console
-        DestinationBase.__init__(self, windowName)
+        wx.Frame.__init__(self, None, title=windowName)
 
         self._gauge = wx.Gauge(self, -1, 100, size=(250, 25))
 
