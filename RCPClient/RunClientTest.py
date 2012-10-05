@@ -1,6 +1,7 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 import time
 from RCPClient.RCPClient import RCConnect, RCPrint
+from numpy.ma.core import sin, cos
 
 if __name__ == '__main__':
     RCConnect("tcp://127.0.0.1:55557")
@@ -39,6 +40,9 @@ if __name__ == '__main__':
         RCPrint(i/3.59, "floatStream1", destinations="TestList1(ListWindow)")
         RCPrint(i/3.9, "floatStream2", destinations="TestList1(ListWindow)")
         RCPrint(message, "floatStream3", destinations="TestList1(ListWindow)")
+
+        RCPrint(sin(i/3.59), "floatStream1", destinations="TestList1(GraphsWindow)")
+        RCPrint(cos(i/3.9), "floatStream2", destinations="TestList1(GraphsWindow)")
         
         print "Sent: ", message
         i+=1

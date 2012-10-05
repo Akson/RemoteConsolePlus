@@ -4,6 +4,7 @@ from RCPServer.Filters.FiltersManager import FiltersManager
 from RCPServer.MessageDestination.OutputWindow.ProgressWindow import ProgressWindow
 import wx
 from RCPServer.MessageDestination.OutputWindow.ListWindow import ListWindow
+from RCPServer.MessageDestination.OutputWindow.GraphsWindow import GraphsWindow
 
 class Router(object):
     '''Router applies all filters to a message and then route it to appropriate destinations'''
@@ -38,6 +39,9 @@ class Router(object):
 
         if destinationType == "ListWindow": #Default destination type is HTMLConsole
             newDestination = ListWindow(destinationName)
+
+        if destinationType == "GraphsWindow": #Default destination type is HTMLConsole
+            newDestination = GraphsWindow(destinationName)
 
         self._destinations[destinationName] = newDestination
         self._uiManager.RegisterNewOutputWindow(newDestination, destinationName)
