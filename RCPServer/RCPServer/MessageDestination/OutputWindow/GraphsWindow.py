@@ -20,11 +20,12 @@ class GraphPanel(wx.Panel):
         self.Fit()
 
     def UpdateGraphs(self):
-        print "Draw"
         """Draw data."""
         for streamValues in self._streamValuesHistory.itervalues():
             plot_pts = num.array( streamValues )
             self.axes.plot( plot_pts[:,0], plot_pts[:,1])
+            
+        self.canvas.draw()
 
 from RCPServer.MessageDestination.DestinationBase import DestinationBase
 class GraphsWindow(DestinationBase, wx.Frame):
