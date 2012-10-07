@@ -1,12 +1,10 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 
-import numpy as num
-import wx
+from RCPServer.MessageDestination.DestinationBase import DestinationBase
 
+import wx
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
-from matplotlib.backends.backend_wx import NavigationToolbar2Wx
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
 
 class GraphPanel(wx.Panel):
     def __init__(self, parent, streamValuesHistory):
@@ -23,13 +21,14 @@ class GraphPanel(wx.Panel):
         self.SetSizer(self.sizer)
         self.Fit()
         
-        self._colors = [(0.0, 1.0, 0.0), (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), (1.0, 1.0, 0.0), (1.0, 0.0, 1.0), (0.0, 1.0, 1.0)]
+        self._colors = [(0.0, 1.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 1.0, 1.0), (0.0, 0.0, 1.0), (1.0, 0.0, 1.0)]
 
     def UpdateGraphs(self):
         self.axes.clear()
         self.axes.patch.set_facecolor((0, 0, 0))
         self.axes.grid(b=True, color=(0, 0.1, 0), which='major', linestyle='-', linewidth=1)
         self.axes.yaxis.set_tick_params(labelcolor=(0.6, 0.6, 0.6))
+        self.axes.set_axisbelow(True) 
 
         """Draw data."""
         iColor = 0
@@ -42,7 +41,6 @@ class GraphPanel(wx.Panel):
             
         self.canvas.draw()
 
-from RCPServer.MessageDestination.DestinationBase import DestinationBase
 class GraphsWindow(DestinationBase, wx.Frame):
     '''
     This destination class shows a list of streams and their values

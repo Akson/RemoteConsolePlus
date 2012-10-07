@@ -16,7 +16,7 @@ class Server(object):
         self._socket.bind(NetworkConfig.NetworkAddress)
         self._socket.setsockopt(zmq.SUBSCRIBE, "")
         
-    def ReceiveMessages(self):
+        #Skip all existing messages on start except last NetworkConfig.ProcessLastMessages
         messagesList = []
         try:
         #Receive all incoming messages and pass them to the protocol parser
@@ -29,3 +29,7 @@ class Server(object):
             #Process all message
             for message in messagesList:
                 self._protocolParser.ParseProtocolMessage(message)
+        
+    def ReceiveMessages(self):
+        message = self._socket.recv()
+        self._protocolParser.ParseProtocolMessage(message)

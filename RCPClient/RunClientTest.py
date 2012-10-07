@@ -15,6 +15,7 @@ if __name__ == '__main__':
         RCPrint(message, "strStream")
         RCPrint(i, "intStream")
         RCPrint(i/3.759, "floatStream")
+        
         RCPrint(i/3.59, "floatStream", destinations="Win1")
         RCPrint(i/3.9, "floatStream", destinations="Win1")
         RCPrint(i/3.759, "floatStream", destinations=", Win1")
@@ -28,10 +29,12 @@ if __name__ == '__main__':
         RCPrint(i*1000+i/3.759, "time", destinations="WinTime", filters='Font(color=green)')
         RCPrint(i*1000+i/3.759, "time", destinations="WinTime", filters='Font')
 
+        '''
         if i%5 == 0:
             RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars')
             RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars(width=2, height=4)')
             RCPrint([1/(1+x)+x for x in range(i%7, i%7+i%5+1)], "Image name", filters='Bars(direction=H)')
+        '''
 
         RCPrint((i%7)*100/7, "Progress bar 1", destinations="ProgressWindow(ProgressWindow)")
         RCPrint((i%9)*100/8, "Progress bar 2", destinations="ProgressWindow(ProgressWindow)")
@@ -41,9 +44,9 @@ if __name__ == '__main__':
         RCPrint(i/3.9, "floatStream2", destinations="TestList1(ListWindow)")
         RCPrint(message, "floatStream3", destinations="TestList1(ListWindow)")
 
-        RCPrint(sin(i/3.1), "floatStream1", destinations="TestGraph1(GraphsWindow)")
-        RCPrint(cos(i/1.9), "floatStream2", destinations="TestGraph1(GraphsWindow)")
-        RCPrint(cos(i/5.2), "floatStream3", destinations="TestGraph1(GraphsWindow)")
+        RCPrint(sin(i/10.1), "floatStream1", destinations="TestGraph1(GraphsWindow)")
+        RCPrint(cos(i/25.9), "floatStream2", destinations="TestGraph1(GraphsWindow)")
+        RCPrint(cos(i/6.2), "floatStream3", destinations="TestGraph1(GraphsWindow)")
         
         print "Sent: ", message
         i+=1
