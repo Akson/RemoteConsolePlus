@@ -34,10 +34,10 @@ class GraphPanel(wx.Panel):
         """Draw data."""
         iColor = 0
         for streamValues in self._streamValuesHistory.itervalues():
-            valuesNumber = int(self.axes.get_window_extent().width) / 4
+            valuesNumber = int(self.axes.get_window_extent().width)
             X = range(0, valuesNumber)
             Y = [streamValues[-min(valuesNumber, len(streamValues))]] * (valuesNumber - len(streamValues)) + streamValues[-valuesNumber:]
-            self.axes.plot( X, Y, color=self._colors[iColor], linewidth=1)
+            self.axes.plot( X, Y, color=self._colors[iColor%len(self._colors)], linewidth=1)
             iColor+=1
             
         self.canvas.draw()
