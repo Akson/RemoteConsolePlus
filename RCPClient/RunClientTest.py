@@ -41,8 +41,9 @@ if __name__ == '__main__':
         RCPrint(i/3.9, "floatStream2", destinations="TestList1(ListWindow)")
         RCPrint(message, "floatStream3", destinations="TestList1(ListWindow)")
 
-        RCPrint(sin(i/3.59), "floatStream1", destinations="TestGraph1(GraphsWindow)")
-        RCPrint(cos(i/3.9), "floatStream2", destinations="TestGraph1(GraphsWindow)")
+        RCPrint(sin(i/3.1), "floatStream1", destinations="TestGraph1(GraphsWindow)")
+        RCPrint(cos(i/1.9), "floatStream2", destinations="TestGraph1(GraphsWindow)")
+        RCPrint(cos(i/5.2), "floatStream3", destinations="TestGraph1(GraphsWindow)")
         
         print "Sent: ", message
         i+=1
