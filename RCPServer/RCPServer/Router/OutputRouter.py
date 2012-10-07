@@ -1,6 +1,5 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 from RCPServer.MessageDestination.OutputWindow.HTMLConsole import HTMLConsole
-from RCPServer.Filters.FiltersManager import FiltersManager
 from RCPServer.MessageDestination.OutputWindow.ProgressWindow import ProgressWindow
 import wx
 from RCPServer.MessageDestination.OutputWindow.ListWindow import ListWindow

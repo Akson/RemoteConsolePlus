@@ -9,8 +9,7 @@ class ProtocolParser(object):
     with additional data after JSON message.
     '''
 
-    def __init__(self, filterRouter):
-        self._router = filterRouter
+    def __init__(self):
         self._decoder = json.JSONDecoder()
         
     def ParseProtocolMessage(self, message):
@@ -23,5 +22,4 @@ class ProtocolParser(object):
         outputMessage = copy.deepcopy(MessageConfig.DefaultMessageFields)
         outputMessage.update(messageObject)
         
-        #Pass parsed data object to the router
-        self._router.PassMessage(outputMessage)
+        return outputMessage

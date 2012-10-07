@@ -1,13 +1,12 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
-from RCPServer.Filters.FiltersManager import FiltersManager
+from RCPServer.Filters.Common.Time import Time
+from RCPServer.Filters.Common.Font import Font
+from RCPServer.Filters.Common.Bars import Bars
 
 class InputRouter(object):
     '''Router applies all filters to a message and then route it to appropriate destinations'''
 
     def __init__(self, inputPipe):
-        #Filter manages stores all filters
-        self._filtersManager = FiltersManager()
-        
         #Collector part sends processed messages to destinations via this pipe.
         self._inputPipe = inputPipe
 
@@ -32,7 +31,7 @@ class InputRouter(object):
                 filterName, filterParameters = self.ParseFilterDescription(filterDescription)
                 
                 #Find filter
-                filterObject = self._filtersManager.FindFilterByName(filterName)
+                filterObject = self.FindFilterByName(filterName)
                 if filterObject != None:
                     #Apply filter now
                     filterObject.ApplyFilterToMessage(message, filterParameters)
@@ -60,3 +59,9 @@ class InputRouter(object):
             return filterName, parametersDict
         except:
             raise Exception("Cannot parse filter name and/or parameters: ", filterDescription)
+    
+    def FindFilterByName(self, filterName):
+        if filterName == "Time": return Time()
+        if filterName == "Font": return Font()
+        if filterName == "Bars": return Bars()
+        return None

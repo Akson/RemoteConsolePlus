@@ -1,6 +1,6 @@
 '''Created by Dmytro Konobrytskyi, 2012(C)'''
 import wx
-from Network.Server import Server
+from Network.ZMQServer import ZMQServer
 from UI.UIManager import UIManager
 from MessageProtocol.JSONWithBinaryTail import ProtocolParser
 from ConfigManager.ConfigManager import NetworkConfig
@@ -10,9 +10,8 @@ from Router.OutputRouter import OutputRouter
 
 class RCPCollectorProcess(Process):
     '''
-    This is a process that receives messages from ZMQ, apply filters and send them to emmiter
+    This is a process that receive messages from ZMQ, apply filters and send them to emmiter process through the pipe
     '''
-
     def __init__(self, pipe):
         Process.__init__(self)
         self._pipe = pipe  
@@ -23,18 +22,19 @@ class RCPCollectorProcess(Process):
         outputPipe.close()
 
         #Create a collector pipeline
+        server = ZMQServer()
+        protocolParser = ProtocolParser()
         inputRouter = InputRouter(inputPipe)
-        protocolParser = ProtocolParser(inputRouter)
-        server = Server(protocolParser)
 
         #Run a message loop. It continuously reads ZMQ messages, parses them, apply filters and send to the Emitter through the pipe
         while True:
-            server.ReceiveMessages()
-
+            message = server.ReceiveMessages()
+            message = protocolParser.ParseProtocolMessage(message)
+            inputRouter.PassMessage(message)
+            
 class RCPServer(object):
     '''
-    Main class of RCP server. 
-    It creates and controls all message processing pipeline components.
+    Main class of RCP server. It creates and controls all message processing pipeline components.
     '''
 
     def __init__(self):
@@ -42,34 +42,16 @@ class RCPServer(object):
         pipe = Pipe()
         
         #Run a Collector process
-        collectorProcess = RCPCollectorProcess(pipe)
-        collectorProcess.start()
-
-        #Start emmiter
-        self.RunEmitter(pipe)
-        
-    def RunCollector(self, pipe):
-        #Close the output part of a pipe which we don't need since we are only sending data
-        outputPipe, inputPipe = pipe
-        outputPipe.close()
-
-        #Create a collector pipeline
-        inputRouter = InputRouter(inputPipe)
-        protocolParser = ProtocolParser(inputRouter)
-        server = Server(protocolParser)
-        
-        #Run a message loop. It continuously reads ZMQ messages, parses them, apply filters and send to the Emitter through the pipe
-        while True:
-            server.ReceiveMessages()
-        
-    def RunEmitter(self, pipe):
-        self._app = wx.App(redirect=False)  #default error output to console
+        self._collectorProcess = RCPCollectorProcess(pipe)
+        self._collectorProcess.daemon = True    #This means that when UI process ends it will kill the collector process
+        self._collectorProcess.start()
 
         #Close this part of a pipe, since we don't send any data on this side
         outputPipe, inputPipe = pipe
         inputPipe.close()
         self._outputPipe = outputPipe 
 
+        self._app = wx.App(redirect=False)  #default error output to console
         self._uiManager = UIManager()
         self._outputRouter = OutputRouter(self._uiManager)
 
@@ -78,6 +60,7 @@ class RCPServer(object):
         self._mainTimer = wx.Timer(timerOwner, wx.ID_ANY)
         self._mainTimer.Start(NetworkConfig.ReceivingMessagesInterval)
         timerOwner.Bind(wx.EVT_TIMER, self.ProcessMessagess, self._mainTimer)
+        timerOwner.Bind(wx.EVT_IDLE, self.ProcessMessagess, self._mainTimer)
         
         self._app.MainLoop()
 
